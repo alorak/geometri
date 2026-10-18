@@ -128,3 +128,18 @@ test('açı yazıları şeklin içinde kalır; yalnızca ilgili kenar etiketleni
     assert.ok(svg.includes('stroke="#7380d6"')||degree===0);
   }
 });
+
+test('çember üzerindeki yay, seçili yarıçapa göre r ve birim cinsinden etiketlenir',()=>{
+  const format=value=>new Intl.NumberFormat('tr-TR',{minimumFractionDigits:3,maximumFractionDigits:3}).format(value);
+  for(const [radius,angle] of [[.5,30],[.9,93],[1,90],[1.4,120],[2,270]]){
+    const g=radianAt(radius,angle),svg=renderRadian(radius,angle);
+    assert.ok(svg.includes('r = '+format(g.radius)+' birim'));
+    assert.ok(svg.includes('s = '+format(g.radians)+' r'));
+    assert.ok(svg.includes('= '+format(g.arcLength)+' birim'));
+    assert.ok(svg.includes(angle+'°'));
+    if(radius===1)assert.ok(svg.includes('r = 1 → s = θ (sayıca)'));
+    else assert.ok(!svg.includes('r = 1 → s = θ (sayıca)'));
+    assert.ok(!svg.includes('Açı sabitken yarıçap'));
+    assert.ok(!svg.includes('Bir radyanın anlamı'));
+  }
+});

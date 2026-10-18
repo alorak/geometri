@@ -87,3 +87,20 @@
   .trig-radian-side .trig-control-area{gap:12px;padding:13px 16px}
   .trig-radian-side .trig-slider-actions{flex-wrap:nowrap}
 }
+
+/* Tek bir gömülü çalışma alanı: ayarlar solda, birim/yay etiketli çizim sağda. */
+.trig-radian-layout{grid-template-columns:minmax(245px,285px) minmax(0,1fr);background:#fcfdff}
+.trig-radian-side{grid-column:1;grid-row:1;border:0;border-right:1px solid #edf0f8;background:#fcfdff;display:flex;flex-direction:column;align-items:stretch;justify-content:center;gap:21px;padding:21px 18px}
+.trig-radian-side .trig-control-area{padding:0;gap:19px}
+.trig-radian-side .trig-readout{width:100%;padding:11px 12px;min-height:0;background:#eef0ff;border:1px solid #e3e7fa;border-radius:9px}
+.trig-radian-side .trig-readout strong{font-size:13px;line-height:1.5}
+.trig-radian-figure{grid-column:2;grid-row:1}
+.trig-radian-figure .trig-visual{justify-content:flex-start}
+.trig-radian-figure .trig-visual svg{width:100%;max-width:840px;max-height:none}
+@media(max-width:690px){
+  .trig-radian-layout{display:flex;flex-direction:column}
+  .trig-radian-side{order:0;border-right:0;border-top:0;border-bottom:1px solid #edf0f8;padding:14px 16px;gap:11px}
+  .trig-radian-side .trig-control-area{gap:11px;padding:0}
+  .trig-radian-figure{order:1}
+  .trig-radian-figure .trig-visual{justify-content:center}
+}
