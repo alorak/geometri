@@ -12,11 +12,14 @@
 </head>
 <body>
   <div class="app-shell">
-    <aside class="sidebar" aria-label="Konu menüsü">
+    <header class="site-navbar" aria-label="Üst menü">
       <a class="brand" href="#ust" aria-label="Geometri, sayfanın başı">
         <span class="brand-icon" aria-hidden="true"><span></span><span></span><span></span></span>
         <span>geometri<span class="brand-dot">.</span></span>
       </a>
+    </header>
+    <aside class="sidebar" aria-label="Konu menüsü">
+
       <div class="nav-label">KONULAR</div>
       <nav class="topic-nav" aria-label="Konular">
         <a class="topic active" href="#temel-sekiller" aria-current="page"><span class="topic-number">01</span><span>Temel Şekiller</span><span class="active-dot"></span></a>
@@ -32,20 +35,17 @@
         <a href="#ceyrek-cember"><span>06</span>Çeyrek çember</a>
       </nav>
       <div class="sidebar-bottom">
-        <div class="sidebar-tip"><span class="tip-sparkle">✳</span><p><strong>Keşfederek öğren</strong><br>Çubukları hareket ettir, açılar ve uzunluklar nasıl değişiyor gör.</p></div>
+
         <a href="https://github.com/alorak/geometri" target="_blank" rel="noopener noreferrer" class="repo-link">GitHub <span aria-hidden="true">↗</span></a>
       </div>
     </aside>
 
     <main id="ust">
-      <header class="topbar">
-        <div class="breadcrumbs"><span>Geometri Atölyesi</span><span aria-hidden="true">/</span><strong>Temel Şekiller</strong></div>
 
-      </header>
 
       <div class="content">
         <div class="section-heading" id="temel-sekiller">
-          <div><div class="section-kicker">ETKİLEŞİMLİ DERSLER</div><h2>Temel şekiller</h2></div>
+          <div><div class="section-kicker">ETKİLEŞİMLİ DERSLER</div><h1>Temel şekiller</h1></div>
           <div class="section-count">01 <span>/ 06</span></div>
         </div>
 
@@ -55,14 +55,14 @@
             <div class="lesson-copy">
               <span class="lesson-index">01 / 06 <span class="lesson-tag">BAŞLANGIÇ</span></span>
               <h3 id="segment-title">1 birimlik doğru parçası</h3>
-              <p>İki nokta arasındaki en kısa yol bir doğru parçasıdır. Uzunluğu <strong>1 birim</strong> olarak sabit tutalım. Uç noktalar veya parça hareket etse de bu ölçü değişmez.</p>
-              <div class="formula-card"><span>Uzunluk</span><strong>|AB| = 1</strong></div>
-              <p class="insight" id="segment-tip">A veya B noktasını sürükle; diğer uç sabit kalır. Çizgiyi ortasından sürüklersen ikisi birlikte taşınır.</p>
+              <p>İki nokta arasındaki en kısa yol bir doğru parçasıdır. Başlangıçta uzunluğu <strong>1 birim</strong> olsun. Noktaları sürükleyerek uzunluğu değiştirebilirsin.</p>
+              <div class="formula-card"><span>Canlı uzunluk</span><strong class="segment-formula-value">|AB| = 1,00</strong></div>
+              <p class="insight" id="segment-tip">A veya B noktasını sürüklersen uzunluk değişir. Çizgiyi ortasından sürüklersen ikisi birlikte taşınır ve uzunluk korunur.</p>
             </div>
             <div class="lesson-lab">
-              <div class="lab-title"><span class="live-dot"></span><span>CANLI ÇİZİM</span><span class="lab-badge">Birimsiz ölçek</span></div>
-              <div class="canvas-container"><svg class="shape-canvas" viewBox="0 0 640 330" role="img" aria-label="A ve B uçları ya da gövdesi sürüklenebilen, uzunluğu hep bir birim olan AB doğru parçası" aria-describedby="segment-tip"></svg></div>
-              <div class="lab-controls"><div class="control-header"><label for="range-segment">Yönü döndür</label><output class="measurement" for="range-segment">0° · 1 birim</output></div><div class="control-row"><input id="range-segment" type="range" min="0" max="360" value="0" step="1"><button class="play-button" type="button" aria-label="Doğru parçasını bir tam tur döndür"><span aria-hidden="true">▶</span> Oynat</button><button class="reset-button" type="button" aria-label="Doğru parçasını başlangıç konumuna getir" title="Başlangıca dön">↺</button></div></div>
+              <div class="lab-title"><span class="live-dot"></span><span>CANLI ÇİZİM</span><span class="lab-badge">Başlangıç: 1 birim</span></div>
+              <div class="canvas-container"><svg class="shape-canvas" viewBox="0 0 640 330" role="img" aria-label="A ve B uçları sürüklenince uzunluğu değişen, gövdesi sürüklenince uzunluğu korunan AB doğru parçası" aria-describedby="segment-tip"></svg></div>
+              <div class="lab-controls"><div class="control-header"><label for="range-segment">Uzunluk</label><output class="measurement" for="range-segment">1,00 birim</output></div><div class="control-row"><input id="range-segment" type="range" min="10" max="250" value="100" step="1"><button class="play-button" type="button" aria-label="Doğru parçasının uzunluk animasyonunu oynat"><span aria-hidden="true">▶</span> Oynat</button><button class="reset-button" type="button" aria-label="Doğru parçasını bir birime sıfırla" title="Başlangıca dön">↺</button></div></div>
             </div>
           </section>
 
@@ -138,7 +138,7 @@
             <div class="lesson-lab">
               <div class="lab-title"><span class="live-dot"></span><span>CANLI ÇİZİM</span><span class="lab-badge">r = 1</span></div>
               <div class="canvas-container"><svg class="shape-canvas" viewBox="0 0 640 330" role="img" aria-label="Büyütülmüş birim çemberde merkez açı, çeyrek yay ve kirişin canlı uzunlukları"></svg></div>
-              <div class="lab-controls"><div class="control-header"><label for="range-quarter">Merkez açısını değiştir</label><output class="measurement" for="range-quarter">90° · 1,571 yay · 1,414 kiriş</output></div><div class="control-row"><input id="range-quarter" type="range" min="0" max="100" value="100" step="1"><button class="play-button" type="button" aria-label="Çeyrek çember animasyonunu oynat"><span aria-hidden="true">▶</span> Oynat</button></div><label class="checkbox-row"><input type="checkbox" id="show-circle"><span>Tam çemberi karşılaştırma için göster</span></label></div>
+              <div class="lab-controls"><div class="control-header"><label for="range-quarter">Merkez açısını değiştir</label><output class="measurement" for="range-quarter">90° · 1,571 yay · 1,414 kiriş</output></div><div class="control-row"><input id="range-quarter" type="range" min="0" max="100" value="100" step="1"><button class="play-button" type="button" aria-label="Çeyrek çember animasyonunu oynat"><span aria-hidden="true">▶</span> Oynat</button></div></div>
             </div>
           </section>
         </div>
