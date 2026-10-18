@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f8fc">
+  <meta name="description" content="Bir birimden başlayarak geometrik şekilleri, açıları, kök 2 ve pi sayısını etkileşimli 2B ve 3B çizimlerle keşfedin.">
+  <title>Geometri — Temel Şekiller</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
+  <script type="module" src="app.mjs"></script>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="Konu menüsü">
+      <a class="brand" href="#ust" aria-label="Geometri, sayfanın başı">
+        <span class="brand-icon" aria-hidden="true"><span></span><span></span><span></span></span>
+        <span>geometri<span class="brand-dot">.</span></span>
+      </a>
+      <div class="nav-label">KONULAR</div>
+      <nav class="topic-nav" aria-label="Konular">
+        <a class="topic active" href="#temel-sekiller" aria-current="page"><span class="topic-number">01</span><span>Temel Şekiller</span><span class="active-dot"></span></a>
+        <span class="topic future"><span class="topic-number">02</span><span>Dönüşümler</span><span class="soon">Yakında</span></span>
+        <span class="topic future"><span class="topic-number">03</span><span>3B Cisimler</span><span class="soon">Yakında</span></span>
+      </nav>
+      <div class="nav-label lesson-nav-title">BU BÖLÜMDE</div>
+      <nav class="lesson-nav" aria-label="Temel şekiller">
+        <a href="#dogru-parcasi"><span>01</span>Doğru parçası</a>
+        <a href="#dik-ucgen"><span>02</span>İkizkenar dik üçgen</a>
+        <a href="#eskenar-ucgen"><span>03</span>Eşkenar üçgen</a>
+        <a href="#kok-iki-ucgen"><span>04</span>√2 kenarlı üçgen</a>
+        <a href="#kare"><span>05</span>Birim kare</a>
+        <a href="#ceyrek-cember"><span>06</span>Çeyrek çember</a>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="sidebar-tip"><span class="tip-sparkle">✳</span><p><strong>Keşfederek öğren</strong><br>Çubukları hareket ettir, açılar ve uzunluklar nasıl değişiyor gör.</p></div>
+        <a href="https://github.com/alorak/geometri" target="_blank" rel="noopener noreferrer" class="repo-link">GitHub <span aria-hidden="true">↗</span></a>
+      </div>
+    </aside>
+
+    <main id="ust">
+      <header class="topbar">
+        <div class="breadcrumbs"><span>Geometri Atölyesi</span><span aria-hidden="true">/</span><strong>Temel Şekiller</strong></div>
+        <div class="view-control" role="group" aria-label="Çizim görünümü">
+          <button type="button" class="view-button active" data-view="2d" aria-pressed="true">▱ <span>2B</span></button>
+          <button type="button" class="view-button" data-view="3d" aria-pressed="false">⬡ <span>3B</span></button>
+        </div>
+      </header>
+
+      <div class="content">
+        <section class="hero" id="temel-sekiller" aria-labelledby="page-title">
+          <div class="hero-main">
+            <div class="eyebrow"><span class="eyebrow-line"></span> BÖLÜM 01 · GEOMETRİNİN TEMELİ</div>
+            <h1 id="page-title">Her şey <span>1 birimle</span> başlar.</h1>
+            <p>Bir doğru parçasından üçgenlere, kareye ve çembere… Kenarların, açıların ve <strong>√2 ile π</strong> sayılarının nereden geldiğini çizerek keşfet.</p>
+            <div class="hero-points" aria-label="Bu bölümde öğrenilecek kavramlar">
+              <span>6 etkileşimli şekil</span><span>2B / 3B görünüm</span><span>Canlı ölçümler</span>
+            </div>
+          </div>
+          <div class="hero-art" aria-hidden="true">
+            <svg viewBox="0 0 300 210">
+              <defs><linearGradient id="hero-grad" x1="0" x2="1" y1="1" y2="0"><stop stop-color="#5865e8"/><stop offset="1" stop-color="#9ca5fb"/></linearGradient></defs>
+              <circle cx="214" cy="102" r="77" fill="none" stroke="#c8d0fb" stroke-width="1.4" stroke-dasharray="5 7"/>
+              <path d="M52 168 L169 168 L52 51 Z" fill="#e6e9ff" stroke="url(#hero-grad)" stroke-width="3"/>
+              <path d="M52 151 H69 V168" fill="none" stroke="#5865e8" stroke-width="1.8"/>
+              <path d="M169 168 A77 77 0 0 0 92 91" stroke="#f7a65b" stroke-width="4" fill="none" stroke-linecap="round"/>
+              <path d="M169 168 L92 91" stroke="#f7a65b" stroke-width="1.6" stroke-dasharray="4 5"/>
+              <circle cx="52" cy="168" r="5.5" fill="#5865e8"/><circle cx="169" cy="168" r="5.5" fill="#5865e8"/><circle cx="52" cy="51" r="5.5" fill="#5865e8"/>
+              <text x="111" y="187" text-anchor="middle" font-size="13" fill="#636dc9">1</text>
+              <text x="31" y="114" font-size="13" fill="#636dc9">1</text>
+              <text x="126" y="101" font-size="15" fill="#4b59d0" font-weight="700">√2</text>
+              <text x="222" y="39" font-size="20" fill="#b0baf9" font-weight="700">π</text>
+            </svg>
+          </div>
+        </section>
+
+        <div class="section-heading">
+          <div><div class="section-kicker">ETKİLEŞİMLİ DERSLER</div><h2>Temel şekiller</h2><p>Kaydırıcıları hareket ettir veya <strong>Oynat</strong> düğmesine bas. Her adımda neyin değiştiğine dikkat et.</p></div>
+          <div class="section-count">01 <span>/ 06</span></div>
+        </div>
+        <p id="view-explanation" class="view-explanation" hidden><strong>3B görünüm:</strong> Düzlemsel şekiller, yalnızca uzaydaki görünümlerini keşfetmek için ince bir kalınlıkla gösterilir. Verilen kenar, açı, alan ve yay değerleri 2B şekle aittir.</p>
+
+        <div class="shape-list">
+          <section id="dogru-parcasi" class="lesson" data-shape="segment" aria-labelledby="segment-title">
+            <div class="lesson-copy">
+              <span class="lesson-index">01 / 06 <span class="lesson-tag">BAŞLANGIÇ</span></span>
+              <h3 id="segment-title">1 birimlik doğru parçası</h3>
+              <p>İki nokta arasındaki en kısa yol bir doğru parçasıdır. Uzunluğunu <strong>1 birim</strong> olarak kabul edelim; diğer şekilleri bu ölçüyle oluşturacağız.</p>
+              <div class="formula-card"><span>Uzunluk</span><strong>|AB| = 1</strong></div>
+              <p class="insight">A ve B uç noktalarıdır. Doğru parçasının yönü değişse bile uzunluk aynı kalır.</p>
+            </div>
+            <div class="lesson-lab">
+              <div class="lab-title"><span class="live-dot"></span><span>CANLI ÇİZİM</span><span class="lab-badge">Birimsiz ölçek</span></div>
+              <div class="canvas-container"><svg class="shape-canvas" viewBox="0 0 640 330" role="img" aria-label="Uzunluğu sıfırdan bir birime artan AB doğru parçası"></svg></div>
+              <div class="lab-controls"><div class="control-header"><label for="range-segment">Parçayı uzat</label><output class="measurement" for="range-segment">1,00 birim</output></div><div class="control-row"><input id="range-segment" type="range" min="0" max="100" value="100" step="1"><button class="play-button" type="button" aria-label="Doğru parçası animasyonunu oynat"><span aria-hidden="true">▶</span> Oynat</button></div></div>
+            </div>
+          </section>
+
+          <section id="dik-ucgen" class="lesson" data-shape="right" aria-labelledby="right-title">
+            <div class="lesson-copy">
+              <span class="lesson-index">02 / 06 <span class="lesson-tag">PİSAGOR</span></span>
+              <h3 id="right-title">İkizkenar dik üçgen</h3>
+              <p>Uzunluğu <strong>1 birim</strong> olan iki kenarı aralarındaki açı 90° olana kadar aç. Bu kenarlar dikleştiğinde üçüncü kenar, yani hipotenüs, <strong>√2</strong> olur.</p>
+              <div class="formula-card"><span>Pisagor bağıntısı</span><strong>1² + 1² = (√2)²</strong><small>Hipotenüs ≈ 1,4142 birim</small></div>
+              <p class="insight">Dik açı yalnızca 90° konumunda oluşur. Eşit dik kenarların karşısında 45° ve 45° açılar bulunur.</p>
+            </div>
+            <div class="lesson-lab">
+              <div class="lab-title"><span class="live-dot"></span><span>CANLI ÇİZİM</span><span class="lab-badge">1 · 1 · √2</span></div>
+              <div class="canvas-container"><svg class="shape-canvas" viewBox="0 0 640 330" role="img" aria-label="İki eşit birim kenarın açılmasıyla oluşan ikizkenar dik üçgen"></svg></div>
+              <div class="lab-controls"><div class="control-header"><label for="range-right">Kenarlar arasındaki açı</label><output class="measurement" for="range-right">90°</output></div><div class="control-row"><input id="range-right" type="range" min="0" max="100" value="100" step="1"><button class="play-button" type="button" aria-label="Dik üçgen animasyonunu oynat"><span aria-hidden="true">▶</span> Oynat</button></div></div>
+            </div>
+          </section>
+
+          <section id="eskenar-ucgen" class="lesson" data-shape="equilateral" aria-labelledby="equilateral-title">
+            <div class="lesson-copy">
+              <span class="lesson-index">03 / 06 <span class="lesson-tag">EŞİT KENARLAR</span></span>
+              <h3 id="equilateral-title">Eşkenar üçgen</h3>
+              <p>İki kenarı yine <strong>1 birim</strong> tutalım. Aralarındaki açıyı bu kez <strong>60°</strong> yapınca üçüncü kenar da tam 1 birim olur.</p>
+              <div class="formula-card"><span>Tüm kenarlar ve açılar eşit</span><strong>1 · 1 · 1</strong><small>Her iç açı 60°</small></div>
+              <p class="insight">Eşkenar üçgen, iki birim kenarın 90° yerine 60° ile birleşmesiyle ortaya çıkar.</p>
+            </div>
+            <div class="lesson-lab">
+              <div class="lab-title"><span class="live-dot"></span><span>CANLI ÇİZİM</span><span class="lab-badge">60° · 60° · 60°</span></div>
+              <div class="canvas-container"><svg class="shape-canvas" viewBox="0 0 640 330" role="img" aria-label="İki birim kenar arasındaki açı altmış dereceye kadar açılarak eşkenar üçgen oluşumu"></svg></div>
+              <div class="lab-controls"><div class="control-header"><label for="range-equilateral">Kenarlar arasındaki açı</label><output class="measurement" for="range-equilateral">60°</output></div><div class="control-row"><input id="range-equilateral" type="range" min="0" max="100" value="100" step="1"><button class="play-button" type="button" aria-label="Eşkenar üçgen animasyonunu oynat"><span aria-hidden="true">▶</span> Oynat</button></div></div>
+            </div>
+          </section>
+
+          <section id="kok-iki-ucgen" class="lesson" data-shape="root2" aria-labelledby="root2-title">
+            <div class="lesson-copy">
+              <span class="lesson-index">04 / 06 <span class="lesson-tag">KÖK 2</span></span>
+              <h3 id="root2-title">√2 kenarlı ikizkenar üçgen</h3>
+              <p>Bu kez eşit olan iki yan kenarın uzunluğu <strong>√2 birim</strong>, tabanın uzunluğu ise <strong>1 birim</strong> olsun. Kaydırıcıyla tabanı açarken yan kenarlar sabit kalır.</p>
+              <div class="formula-card"><span>Kenarlar</span><strong>√2 · √2 · 1</strong><small>Tepe açısı ≈ 41,41°</small></div>
+              <p class="insight">Bu üçgen dik değildir. Son konumda taban açıları yaklaşık 69,30°'dir.</p>
+            </div>
+            <div class="lesson-lab">
+              <div class="lab-title"><span class="live-dot"></span><span>CANLI ÇİZİM</span><span class="lab-badge">√2 · √2 · 1</span></div>
+              <div class="canvas-container"><svg class="shape-canvas" viewBox="0 0 640 330" role="img" aria-label="Yan kenarları kök iki olan ikizkenar üçgenin tabanının bir birime açılması"></svg></div>
+              <div class="lab-controls"><div class="control-header"><label for="range-root2">Tabanı aç</label><output class="measurement" for="range-root2">1,00 birim</output></div><div class="control-row"><input id="range-root2" type="range" min="0" max="100" value="100" step="1"><button class="play-button" type="button" aria-label="Kök iki kenarlı üçgen animasyonunu oynat"><span aria-hidden="true">▶</span> Oynat</button></div></div>
+            </div>
+          </section>
+
+          <section id="kare" class="lesson" data-shape="square" aria-labelledby="square-title">
+            <div class="lesson-copy">
+              <span class="lesson-index">05 / 06 <span class="lesson-tag">İKİ ÜÇGEN</span></span>
+              <h3 id="square-title">1 birimlik kare</h3>
+              <p>Dört kenarı <strong>1 birim</strong> olan karenin köşegenini çizdiğimizde, kare <strong>iki eş ikizkenar dik üçgene</strong> ayrılır.</p>
+              <div class="formula-card"><span>Köşegen ve alan</span><strong>d = √2 · A = 1 br²</strong><small>Her üçgenin alanı ½ br²</small></div>
+              <p class="insight">Köşegen √2 birimdir. Her yarımda 1, 1 ve √2 kenarları ile 45°–45°–90° açıları bulunur.</p>
+            </div>
+            <div class="lesson-lab">
+              <div class="lab-title"><span class="live-dot"></span><span>CANLI ÇİZİM</span><span class="lab-badge">2 eş üçgen</span></div>
+              <div class="canvas-container"><svg class="shape-canvas" viewBox="0 0 640 330" role="img" aria-label="Köşegeniyle iki ikizkenar dik üçgene ayrılan birim kare"></svg></div>
+              <div class="lab-controls"><div class="control-header"><label for="range-square">Karenin yüksekliğini tamamla</label><output class="measurement" for="range-square">1,00 birim</output></div><div class="control-row"><input id="range-square" type="range" min="0" max="100" value="100" step="1"><button class="play-button" type="button" aria-label="Kare animasyonunu oynat"><span aria-hidden="true">▶</span> Oynat</button></div></div>
+            </div>
+          </section>
+
+          <section id="ceyrek-cember" class="lesson" data-shape="quarter" aria-labelledby="quarter-title">
+            <div class="lesson-copy">
+              <span class="lesson-index">06 / 06 <span class="lesson-tag">ÇEMBER & π</span></span>
+              <h3 id="quarter-title">1 birimlik çeyrek çember</h3>
+              <p>Yarıçapı <strong>1 birim</strong> olan çemberin dörtte biri, 90°'lik bir merkez açısı oluşturur. <strong>Kiriş</strong> uçları düz bir çizgiyle bağlar; <strong>yay</strong> ise çember üzerindeki eğri yoldur.</p>
+              <div class="formula-card"><span>90° = π/2 radyan</span><strong>Yay = π/2 ≈ 1,571</strong><small>Kiriş = √2 ≈ 1,414 birim</small></div>
+              <p class="insight">Yay uzunluğu kirişten büyüktür. Tam çemberin çevresi 2π, çeyrek yay uzunluğu ise π/2 birimdir.</p>
+              <div class="legend"><span><i class="legend-line arc"></i> Yay</span><span><i class="legend-line chord"></i> Kiriş</span><span><i class="legend-line radius"></i> Yarıçap</span></div>
+            </div>
+            <div class="lesson-lab">
+              <div class="lab-title"><span class="live-dot"></span><span>CANLI ÇİZİM</span><span class="lab-badge">r = 1</span></div>
+              <div class="canvas-container"><svg class="shape-canvas" viewBox="0 0 640 330" role="img" aria-label="Birim çemberde merkez açı, çeyrek yay ve kirişin uzunlukları"></svg></div>
+              <div class="lab-controls"><div class="control-header"><label for="range-quarter">Merkez açısını değiştir</label><output class="measurement" for="range-quarter">90° · 1,571 yay · 1,414 kiriş</output></div><div class="control-row"><input id="range-quarter" type="range" min="0" max="100" value="100" step="1"><button class="play-button" type="button" aria-label="Çeyrek çember animasyonunu oynat"><span aria-hidden="true">▶</span> Oynat</button></div><label class="checkbox-row"><input type="checkbox" id="show-circle"><span>Tam çemberi karşılaştırma için göster</span></label></div>
+            </div>
+          </section>
+        </div>
+        <footer class="page-footer"><span>Geometri Atölyesi · 1 birimden sonsuzluğa.</span><a href="#ust">Yukarı dön ↑</a></footer>
+      </div>
+    </main>
+  </div>
+</body>
+</html>
