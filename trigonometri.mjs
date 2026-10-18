@@ -83,15 +83,11 @@ const path=(points,fill,stroke='none',width=1)=>
 
 export function renderRadian(radius,angleDeg){
   const g=radianAt(radius,angleDeg);
-  const cx=470,cy=128,r=51+g.radius*38;
-  let out=background();
-  out+=text(32,66,'Bir radyanın anlamı','#6e78a1',15,'start',750);
-  out+=text(32,106,'s / r = θ','#4f5ac4',25,'start',800);
-  out+=text(32,150,'Açı sabitken yarıçap artarsa','#7c859f',13,'start');
-  out+=text(32,174,'yay uzunluğu da artar.','#7c859f',13,'start');
+  const cx=296,cy=149,r=56+g.radius*39;
+  let out=background(640,300);
   out+=circle(cx,cy,r,'#f6f7ff','#d9def7',2);
-  out+=line(cx-r-18,cy,cx+r+18,cy,'#dfe3ef',1.5);
-  out+=line(cx,cy-r-15,cx,cy+r+15,'#dfe3ef',1.5);
+  out+=line(cx-r-19,cy,cx+r+19,cy,'#dfe3ef',1.5);
+  out+=line(cx,cy-r-13,cx,cy+r+13,'#dfe3ef',1.5);
   const pts=[];
   const steps=Math.max(1,Math.ceil(g.degree/3));
   for(let i=0;i<=steps;i++){
@@ -100,20 +96,28 @@ export function renderRadian(radius,angleDeg){
   }
   if(g.degree>0)out+=path([[cx,cy],...pts],'#dfe6ff');
   out+=polyline(pts,'#ed9d51',5);
-  out+=line(cx,cy,cx+r,cy,'#4f61cd',2.6);
+  out+=line(cx,cy,cx+r,cy,'#4f61cd',3);
   const end=pts[pts.length-1];
-  out+=line(cx,cy,end[0],end[1],'#4f61cd',2.6);
-  const marker=[];
-  for(let i=0;i<=Math.max(1,Math.ceil(g.degree/7));i++){
-    const a=g.radians*i/Math.max(1,Math.ceil(g.degree/7));
+  out+=line(cx,cy,end[0],end[1],'#4f61cd',3);
+  const marker=[],markerSteps=Math.max(1,Math.ceil(g.degree/7));
+  for(let i=0;i<=markerSteps;i++){
+    const a=g.radians*i/markerSteps;
     marker.push([cx+31*Math.cos(a),cy-31*Math.sin(a)]);
   }
   if(g.degree>0)out+=polyline(marker,'#7380d6',2.5);
   out+=dot(cx,cy,'#4f61cd',4)+dot(end[0],end[1],'#ed9d51',4);
-  out+=text(cx+r/2,cy+19,'r','#4f61cd',14);
-  const middle=g.radians/2,tx=cx+59*Math.cos(middle),ty=cy-59*Math.sin(middle)-5;
-  out+='<rect x="'+f(tx-37)+'" y="'+f(ty-16)+'" width="74" height="23" rx="8" fill="#ffffff" fill-opacity=".92" stroke="#dfe4fa"/>';
+  out+=text(cx+r/2,cy+23,'r = '+fmt(g.radius)+' birim','#4f61cd',13,'middle',800);
+  const middle=g.radians/2,tx=cx+59*Math.cos(middle),ty=cy-59*Math.sin(middle)-7;
+  out+='<rect x="'+f(tx-37)+'" y="'+f(ty-16)+'" width="74" height="23" rx="8" fill="#fff" fill-opacity=".92" stroke="#dfe4fa"/>';
   out+=text(tx,ty,g.degree+'°','#5260bd',13,'middle',800);
+  out+=circle(464,65,5,'#ed9d51','#fff',1);
+  out+=text(478,69,'YAY UZUNLUĞU','#b77a48',12,'start',800);
+  out+=text(461,103,'s = '+fmt(g.arcRadiusRatio)+' r','#d9894b',18,'start',800);
+  out+=text(461,132,'= '+fmt(g.arcLength)+' birim','#d9894b',16,'start',750);
+  if(Math.abs(g.radius-1)<1e-9){
+    out+='<rect x="456" y="193" width="175" height="38" rx="9" fill="#ecf9f2" stroke="#c6ead8"/>';
+    out+=text(544,217,'r = 1 → s = θ (sayıca)','#188653',12,'middle',800);
+  }
   return out;
 }
 
@@ -247,7 +251,7 @@ if(typeof document!=='undefined'){
       const g=radianAt(radius,angle);
       svg.innerHTML=renderRadian(radius,angle);
       main.textContent='θ = '+radiansInPi(g.degree)+' ≈ '+fmt(g.radians)+' rad';
-      detail.textContent='Yay s = '+fmt(g.arcLength)+' br · s / r = '+fmt(g.arcRadiusRatio);
+      detail.textContent='';
     }else if(kind==='sin-triangle'||kind==='cos-triangle'){
       const sine=kind==='sin-triangle',g=triangleAt(angle);
       svg.innerHTML=renderTriangle(angle,sine?'sin':'cos');
