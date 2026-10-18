@@ -129,17 +129,21 @@ test('açı yazıları şeklin içinde kalır; yalnızca ilgili kenar etiketleni
   }
 });
 
-test('çember üzerindeki yay, seçili yarıçapa göre r ve birim cinsinden etiketlenir',()=>{
-  const format=value=>new Intl.NumberFormat('tr-TR',{minimumFractionDigits:3,maximumFractionDigits:3}).format(value);
-  for(const [radius,angle] of [[.5,30],[.9,93],[1,90],[1.4,120],[2,270]]){
+test('yay uzunluğu doğrudan turuncu yayda ve yarıçap tek ondalıkla görünür',()=>{
+  const three=value=>new Intl.NumberFormat('tr-TR',{minimumFractionDigits:3,maximumFractionDigits:3}).format(value);
+  const one=value=>new Intl.NumberFormat('tr-TR',{minimumFractionDigits:1,maximumFractionDigits:1}).format(value);
+  for(const [radius,angle] of [[.5,0],[.5,30],[.9,93],[1,90],[1.4,120],[2,180],[2,270],[2,360]]){
     const g=radianAt(radius,angle),svg=renderRadian(radius,angle);
-    assert.ok(svg.includes('r = '+format(g.radius)+' birim'));
-    assert.ok(svg.includes('s = '+format(g.radians)+' r'));
-    assert.ok(svg.includes('= '+format(g.arcLength)+' birim'));
+    assert.ok(svg.includes('r = '+one(g.radius)+' birim'));
+    assert.ok(svg.includes('s = '+three(g.arcLength)+' birim'));
     assert.ok(svg.includes(angle+'°'));
-    if(radius===1)assert.ok(svg.includes('r = 1 → s = θ (sayıca)'));
-    else assert.ok(!svg.includes('r = 1 → s = θ (sayıca)'));
-    assert.ok(!svg.includes('Açı sabitken yarıçap'));
-    assert.ok(!svg.includes('Bir radyanın anlamı'));
+    assert.ok(!svg.includes('YAY UZUNLUĞU'));
+    assert.ok(!svg.includes('r = 1 → s = θ (sayıca)'));
+    assert.ok(!svg.includes('s = '+three(g.radians)+' r'));
+    const label=svg.match(/<rect x="([0-9.-]+)" y="([0-9.-]+)" width="138" height="30"/);
+    assert.ok(label,'turuncu yay etiketi bulunamadı');
+    const x=Number(label[1]),y=Number(label[2]);
+    assert.ok(x>=0&&x+138<=640,'yay etiketi yatay sınırlar içinde');
+    assert.ok(y>=0&&y+30<=300,'yay etiketi düşey sınırlar içinde');
   }
 });
