@@ -6,6 +6,8 @@ const clean=value=>Math.abs(value)<1e-12?0:Math.abs(value-1)<1e-12?1:Math.abs(va
 const f=value=>Number(value).toFixed(2);
 const tr=new Intl.NumberFormat('tr-TR',{minimumFractionDigits:3,maximumFractionDigits:3});
 const fmt=value=>tr.format(clean(value));
+const trOneDecimal=new Intl.NumberFormat('tr-TR',{minimumFractionDigits:1,maximumFractionDigits:1});
+const fmtOneDecimal=value=>trOneDecimal.format(clean(value));
 
 export function trigAt(angleDeg){
   const angle=clamp(angleDeg,0,360),radians=angle*DEG;
@@ -106,18 +108,23 @@ export function renderRadian(radius,angleDeg){
   }
   if(g.degree>0)out+=polyline(marker,'#7380d6',2.5);
   out+=dot(cx,cy,'#4f61cd',4)+dot(end[0],end[1],'#ed9d51',4);
-  out+=text(cx+r/2,cy+23,'r = '+fmt(g.radius)+' birim','#4f61cd',13,'middle',800);
+  out+=text(cx+r/2,cy+23,'r = '+fmtOneDecimal(g.radius)+' birim','#4f61cd',13,'middle',800);
   const middle=g.radians/2,tx=cx+59*Math.cos(middle),ty=cy-59*Math.sin(middle)-7;
   out+='<rect x="'+f(tx-37)+'" y="'+f(ty-16)+'" width="74" height="23" rx="8" fill="#fff" fill-opacity=".92" stroke="#dfe4fa"/>';
   out+=text(tx,ty,g.degree+'°','#5260bd',13,'middle',800);
-  out+=circle(464,65,5,'#ed9d51','#fff',1);
-  out+=text(478,69,'YAY UZUNLUĞU','#b77a48',12,'start',800);
-  out+=text(461,103,'s = '+fmt(g.arcRadiusRatio)+' r','#d9894b',18,'start',800);
-  out+=text(461,132,'= '+fmt(g.arcLength)+' birim','#d9894b',16,'start',750);
-  if(Math.abs(g.radius-1)<1e-9){
-    out+='<rect x="456" y="193" width="175" height="38" rx="9" fill="#ecf9f2" stroke="#c6ead8"/>';
-    out+=text(544,217,'r = 1 → s = θ (sayıca)','#188653',12,'middle',800);
+  // Yay uzunluğu etiketi, turuncu yayın orta noktasını izler.
+  const anchorX=cx+r*Math.cos(middle),anchorY=cy-r*Math.sin(middle);
+  let arcLabelX=clamp(anchorX+40*Math.cos(middle),73,567);
+  let arcLabelY=clamp(anchorY-40*Math.sin(middle),16,284);
+  // Küçük yarıçaplarda açı etiketiyle yay etiketi çakışmasın.
+  const touchingAngle=Math.abs(arcLabelX-tx)<110&&Math.abs(arcLabelY-(ty-4.5))<31;
+  if(touchingAngle){
+    arcLabelX=clamp(arcLabelX+70*Math.cos(middle),73,567);
+    arcLabelY=clamp(arcLabelY-70*Math.sin(middle),16,284);
   }
+  out+=line(anchorX,anchorY,arcLabelX,arcLabelY,'#ed9d51',1.4);
+  out+='<rect x="'+f(arcLabelX-69)+'" y="'+f(arcLabelY-15)+'" width="138" height="30" rx="9" fill="#fffaf5" fill-opacity=".97" stroke="#f2c99e"/>';
+  out+=text(arcLabelX,arcLabelY+5,'s = '+fmt(g.arcLength)+' birim','#c87535',14,'middle',800);
   return out;
 }
 
@@ -247,7 +254,7 @@ if(typeof document!=='undefined'){
     if(kind==='radian'){
       const radiusInput=card.querySelector('[data-radius]'),radius=Number(radiusInput.value);
       radiusInput.style.setProperty('--fill',(100*(radius-.5)/1.5)+'%');
-      card.querySelector('[data-radius-output]').textContent=fmt(radius)+' br';
+      card.querySelector('[data-radius-output]').textContent=fmtOneDecimal(radius)+' br';
       const g=radianAt(radius,angle);
       svg.innerHTML=renderRadian(radius,angle);
       main.textContent='θ = '+radiansInPi(g.degree)+' ≈ '+fmt(g.radians)+' rad';

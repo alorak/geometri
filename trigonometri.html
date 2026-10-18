@@ -60,14 +60,13 @@
   </div>
   <div class="trig-radian-layout">
     <aside class="trig-radian-side" aria-label="Açı ve yarıçap ayarları">
-      <div class="trig-control-area"><div class="trig-slider-row"><label for="trig-angle-1">Merkez açısı <output data-angle-output for="trig-angle-1">90°</output></label><div class="trig-slider-actions"><input id="trig-angle-1" data-angle type="range" min="0" max="360" value="90" step="1"><button data-play class="trig-play" type="button" aria-label="Derece ve radyan dönüşümü simülasyonunu oynat">▶ Oynat</button></div></div><div class="trig-slider-row"><label for="trig-radius">Yarıçap <output data-radius-output for="trig-radius">1,000 br</output></label><input id="trig-radius" data-radius type="range" min="0.5" max="2" step="0.1" value="1"></div></div>
+      <div class="trig-control-area"><div class="trig-slider-row"><label for="trig-angle-1">Merkez açısı <output data-angle-output for="trig-angle-1">90°</output></label><div class="trig-slider-actions"><input id="trig-angle-1" data-angle type="range" min="0" max="360" value="90" step="1"><button data-play class="trig-play" type="button" aria-label="Derece ve radyan dönüşümü simülasyonunu oynat">▶ Oynat</button></div></div><div class="trig-slider-row"><label for="trig-radius">Yarıçap <output data-radius-output for="trig-radius">1,0 br</output></label><input id="trig-radius" data-radius type="range" min="0.5" max="2" step="0.1" value="1"></div></div>
       <div class="trig-readout trig-radian-readout"><strong data-main-value>θ = π/2 ≈ 1,571 rad</strong><span data-detail-value class="sr-only"></span></div>
     </aside>
     <div class="trig-radian-figure">
       <div class="trig-visual"><svg data-visual viewBox="0 0 640 300" role="img" aria-label="Derece, yarıçap ve yay uzunluğunu gösteren etkileşimli çember"></svg></div>
     </div>
   </div>
-  <div class="trig-identity">θ (radyan) = derece × π / 180 · s = r × θ</div>
 </article>
 <article class="trig-card" id="ucgende-sinus" data-trig-kind="sin-triangle" aria-labelledby="trig-angle-2-title">
   <div class="trig-card-header">
@@ -75,10 +74,16 @@
     <h2 id="trig-angle-2-title">Dik üçgende sinüs</h2>
     <p>Hipotenüsü 1 birim tut. Açı büyüdükçe karşı dik kenar uzar. <strong>sin θ = karşı / hipotenüs</strong> oranı bu uzunluğu verir.</p>
   </div>
-  <div class="trig-visual"><svg data-visual viewBox="0 0 480 260" role="img" aria-label="Dik üçgende sinüs etkileşimli 2B çizimi"></svg></div>
-  <div class="trig-readout"><strong data-main-value>Hesaplanıyor…</strong><span data-detail-value></span></div>
-  <div class="trig-control-area"><div class="trig-slider-row"><label for="trig-angle-2">Dar açı <output data-angle-output for="trig-angle-2">30°</output></label><div class="trig-slider-actions"><input id="trig-angle-2" data-angle type="range" min="1" max="89" value="30" step="1"><button data-play class="trig-play" type="button" aria-label="Dik üçgende sinüs simülasyonunu oynat">▶ Oynat</button></div></div></div>
-  <div class="trig-identity">sin θ = karşı / 1</div>
+  <div class="trig-triangle-layout">
+    <aside class="trig-triangle-side" aria-label="Açı ayarı ve sin sonucu">
+      <div class="trig-control-area"><div class="trig-slider-row"><label for="trig-angle-2">Dar açı <output data-angle-output for="trig-angle-2">30°</output></label><div class="trig-slider-actions"><input id="trig-angle-2" data-angle type="range" min="1" max="89" value="30" step="1"><button data-play class="trig-play" type="button" aria-label="Dik üçgende sinüs simülasyonunu oynat">▶ Oynat</button></div></div></div>
+      <div class="trig-readout"><strong data-main-value>Hesaplanıyor…</strong><span data-detail-value></span></div>
+      <div class="trig-identity">sin θ = karşı / 1</div>
+    </aside>
+    <div class="trig-triangle-figure">
+      <div class="trig-visual"><svg data-visual viewBox="0 0 480 260" role="img" aria-label="Dik üçgende sinüs etkileşimli 2B çizimi"></svg></div>
+    </div>
+  </div>
 </article>
 <article class="trig-card" id="ucgende-kosinus" data-trig-kind="cos-triangle" aria-labelledby="trig-angle-3-title">
   <div class="trig-card-header">
@@ -86,32 +91,48 @@
     <h2 id="trig-angle-3-title">Dik üçgende kosinüs</h2>
     <p>Hipotenüs yine 1 birim. Açı büyüdükçe komşu dik kenar kısalır. <strong>cos θ = komşu / hipotenüs</strong> oranını izle.</p>
   </div>
-  <div class="trig-visual"><svg data-visual viewBox="0 0 480 260" role="img" aria-label="Dik üçgende kosinüs etkileşimli 2B çizimi"></svg></div>
-  <div class="trig-readout"><strong data-main-value>Hesaplanıyor…</strong><span data-detail-value></span></div>
-  <div class="trig-control-area"><div class="trig-slider-row"><label for="trig-angle-3">Dar açı <output data-angle-output for="trig-angle-3">60°</output></label><div class="trig-slider-actions"><input id="trig-angle-3" data-angle type="range" min="1" max="89" value="60" step="1"><button data-play class="trig-play" type="button" aria-label="Dik üçgende kosinüs simülasyonunu oynat">▶ Oynat</button></div></div></div>
-  <div class="trig-identity">cos θ = komşu / 1</div>
+  <div class="trig-triangle-layout">
+    <aside class="trig-triangle-side" aria-label="Açı ayarı ve cos sonucu">
+      <div class="trig-control-area"><div class="trig-slider-row"><label for="trig-angle-3">Dar açı <output data-angle-output for="trig-angle-3">60°</output></label><div class="trig-slider-actions"><input id="trig-angle-3" data-angle type="range" min="1" max="89" value="60" step="1"><button data-play class="trig-play" type="button" aria-label="Dik üçgende kosinüs simülasyonunu oynat">▶ Oynat</button></div></div></div>
+      <div class="trig-readout"><strong data-main-value>Hesaplanıyor…</strong><span data-detail-value></span></div>
+      <div class="trig-identity">cos θ = komşu / 1</div>
+    </aside>
+    <div class="trig-triangle-figure">
+      <div class="trig-visual"><svg data-visual viewBox="0 0 480 260" role="img" aria-label="Dik üçgende kosinüs etkileşimli 2B çizimi"></svg></div>
+    </div>
+  </div>
 </article>
 <article class="trig-card trig-card-wide" id="sinus-grafigi" data-trig-kind="sin-graph" aria-labelledby="trig-angle-4-title">
   <div class="trig-card-header">
     <div class="trig-eyebrow"><span>04 / 09</span><span class="trig-tag">BİRİM ÇEMBER</span></div>
     <h2 id="trig-angle-4-title">Sinüs grafiği ve dik üçgen</h2>
-    <p>Sinüs grafiğinin her noktası, birim çemberdeki <strong>düşey izdüşüm</strong>dür. Referans dik üçgeninin karşı dik kenarı |sin x| uzunluğundadır; işaret bulunduğu bölgeden gelir.</p>
   </div>
-  <div class="trig-visual"><svg data-visual viewBox="0 0 660 266" role="img" aria-label="Sinüs grafiği ve dik üçgen etkileşimli 2B çizimi"></svg></div>
-  <div class="trig-readout"><strong data-main-value>Hesaplanıyor…</strong><span data-detail-value></span></div>
-  <div class="trig-control-area"><div class="trig-slider-row"><label for="trig-angle-4">Grafikteki açı <output data-angle-output for="trig-angle-4">30°</output></label><div class="trig-slider-actions"><input id="trig-angle-4" data-angle type="range" min="0" max="360" value="30" step="1"><button data-play class="trig-play" type="button" aria-label="Sinüs grafiği ve dik üçgen simülasyonunu oynat">▶ Oynat</button></div></div></div>
-  <div class="trig-identity">sin x = y koordinatı · |karşı| / 1 = |sin x|</div>
+  <div class="trig-graph-layout">
+    <aside class="trig-graph-side" aria-label="Açı ayarı, sonuç ve tanım">
+      <div class="trig-control-area"><div class="trig-slider-row"><label for="trig-angle-4">Grafikteki açı <output data-angle-output for="trig-angle-4">30°</output></label><div class="trig-slider-actions"><input id="trig-angle-4" data-angle type="range" min="0" max="360" value="30" step="1"><button data-play class="trig-play" type="button" aria-label="Sinüs grafiği ve dik üçgen simülasyonunu oynat">▶ Oynat</button></div></div></div>
+      <div class="trig-readout"><strong data-main-value>Hesaplanıyor…</strong><span data-detail-value></span></div>
+      <div class="trig-graph-definition"><strong>Tanım</strong><p>Sinüs, birim çemberdeki noktanın <strong>düşey (y) koordinatıdır</strong>. Dik üçgende karşı kenarın hipotenüse oranıdır.</p></div>
+    </aside>
+    <div class="trig-graph-figure">
+      <div class="trig-visual"><svg data-visual viewBox="0 0 660 266" role="img" aria-label="Sinüs grafiği ve dik üçgen etkileşimli 2B çizimi"></svg></div>
+    </div>
+  </div>
 </article>
 <article class="trig-card trig-card-wide" id="kosinus-grafigi" data-trig-kind="cos-graph" aria-labelledby="trig-angle-5-title">
   <div class="trig-card-header">
     <div class="trig-eyebrow"><span>05 / 09</span><span class="trig-tag">BİRİM ÇEMBER</span></div>
     <h2 id="trig-angle-5-title">Kosinüs grafiği ve dik üçgen</h2>
-    <p>Kosinüs grafiğinin her noktası, birim çemberdeki <strong>yatay izdüşüm</strong>dür. Referans dik üçgeninin komşu dik kenarı |cos x| uzunluğundadır.</p>
   </div>
-  <div class="trig-visual"><svg data-visual viewBox="0 0 660 266" role="img" aria-label="Kosinüs grafiği ve dik üçgen etkileşimli 2B çizimi"></svg></div>
-  <div class="trig-readout"><strong data-main-value>Hesaplanıyor…</strong><span data-detail-value></span></div>
-  <div class="trig-control-area"><div class="trig-slider-row"><label for="trig-angle-5">Grafikteki açı <output data-angle-output for="trig-angle-5">60°</output></label><div class="trig-slider-actions"><input id="trig-angle-5" data-angle type="range" min="0" max="360" value="60" step="1"><button data-play class="trig-play" type="button" aria-label="Kosinüs grafiği ve dik üçgen simülasyonunu oynat">▶ Oynat</button></div></div></div>
-  <div class="trig-identity">cos x = x koordinatı · |komşu| / 1 = |cos x|</div>
+  <div class="trig-graph-layout">
+    <aside class="trig-graph-side" aria-label="Açı ayarı, sonuç ve tanım">
+      <div class="trig-control-area"><div class="trig-slider-row"><label for="trig-angle-5">Grafikteki açı <output data-angle-output for="trig-angle-5">60°</output></label><div class="trig-slider-actions"><input id="trig-angle-5" data-angle type="range" min="0" max="360" value="60" step="1"><button data-play class="trig-play" type="button" aria-label="Kosinüs grafiği ve dik üçgen simülasyonunu oynat">▶ Oynat</button></div></div></div>
+      <div class="trig-readout"><strong data-main-value>Hesaplanıyor…</strong><span data-detail-value></span></div>
+      <div class="trig-graph-definition"><strong>Tanım</strong><p>Kosinüs, birim çemberdeki noktanın <strong>yatay (x) koordinatıdır</strong>. Dik üçgende komşu kenarın hipotenüse oranıdır.</p></div>
+    </aside>
+    <div class="trig-graph-figure">
+      <div class="trig-visual"><svg data-visual viewBox="0 0 660 266" role="img" aria-label="Kosinüs grafiği ve dik üçgen etkileşimli 2B çizimi"></svg></div>
+    </div>
+  </div>
 </article>
           <article class="trig-card trig-card-wide" id="ozel-acilar" aria-labelledby="special-title">
   <div class="trig-card-header">
