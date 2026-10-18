@@ -1,34 +1,40 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {geometryAt,readingFor,renderShape,unitSegment,dragUnitSegment,ROOT_TWO,HALF_PI} from '../app.mjs';
+import {geometryAt,readingFor,renderShape,unitSegment,resizeSegment,dragSegment,ROOT_TWO,HALF_PI} from '../app.mjs';
 
 const approx=(actual,expected,eps=1e-10)=>assert.ok(Math.abs(actual-expected)<eps,actual+' ≠ '+expected);
 const distance=(a,b)=>Math.hypot(a[0]-b[0],a[1]-b[1]);
 
-test('doğru parçası döndürülse de uzunluğu 1 kalır',()=>{
-  for(const t of [0,.12,.35,.5,.75,1,2,-3]){
-    const g=geometryAt('segment',t);
-    approx(distance(...g.vertices),1);
-    approx(g.length,1);
+test('doğru parçası uzunluğu sıfırdan 2,5 birime kadar değişir',()=>{
+  for(const length of [0,.12,.35,1,1.75,2.5]){
+    const g=geometryAt('segment',length);
+    approx(distance(...g.vertices),length);
+    approx(g.length,length);
   }
-  const vertical=unitSegment([0,0],90);
-  approx(vertical[0][0],0);
-  approx(distance(...vertical),1);
+  approx(geometryAt('segment',3).length,2.5);
+  approx(geometryAt('segment',-3).length,0);
+  const rotated=unitSegment([0,0],90);
+  const resized=resizeSegment(rotated,2.25);
+  approx(distance(...resized),2.25);
+  approx(resized[0][0],0);
 });
 
-test('A, B ve gövde sürüklenince AB=1 bağıntısı bozulmaz',()=>{
+test('A veya B hareket edince uzunluk değişir, gövde taşınınca korunur',()=>{
   const original=unitSegment([0,0],0);
-  const movedA=dragUnitSegment(original,'a',[-1,1]);
-  approx(distance(...movedA),1);
+  const movedA=dragSegment(original,'a',[-1,1]);
+  approx(distance(...movedA),Math.hypot(1.5,1));
   assert.deepEqual(movedA[1],original[1]);
-  const movedB=dragUnitSegment(original,'b',[1,1]);
-  approx(distance(...movedB),1);
+  const movedB=dragSegment(original,'b',[1,1]);
+  approx(distance(...movedB),Math.hypot(1.5,1));
   assert.deepEqual(movedB[0],original[0]);
-  const translated=dragUnitSegment(original,'body',[.7,.4],[.1,.1]);
-  approx(distance(...translated),1);
-  approx(translated[0][0]-original[0][0],translated[1][0]-original[1][0]);
-  approx(translated[0][1]-original[0][1],translated[1][1]-original[1][1]);
-  assert.deepEqual(dragUnitSegment(original,'a',original[1]),original);
+  const translated=dragSegment(movedA,'body',[.7,.4],[.1,.1]);
+  approx(distance(...translated),distance(...movedA));
+  approx(translated[0][0]-movedA[0][0],translated[1][0]-movedA[1][0]);
+  approx(translated[0][1]-movedA[0][1],translated[1][1]-movedA[1][1]);
+  assert.deepEqual(dragSegment(original,'a',original[1]),[original[1],original[1]]);
+  const doubled=resizeSegment(original,2);
+  approx(distance(...doubled),2);
+  approx((doubled[0][0]+doubled[1][0])/2,0);
 });
 
 test('ikizkenar dik üçgen ve Pisagor',()=>{

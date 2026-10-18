@@ -9,8 +9,20 @@ export function unitSegment(center=[0,0], angleDeg=0) {
   return [[center[0]-dx,center[1]-dy],[center[0]+dx,center[1]+dy]];
 }
 
-// Endpoint drag rotates around the opposite endpoint; body drag translates both.
-export function dragUnitSegment(vertices, handle, position, startPosition) {
+// Resize symmetrically around the midpoint, preserving the current direction.
+export function resizeSegment(vertices,newLength){
+  const a=vertices[0],b=vertices[1];
+  const mid=[(a[0]+b[0])/2,(a[1]+b[1])/2];
+  const dx=b[0]-a[0],dy=b[1]-a[1];
+  const oldLength=Math.hypot(dx,dy);
+  const unit=oldLength>1e-8?[dx/oldLength,dy/oldLength]:[1,0];
+  const radius=Math.max(0,Number(newLength)||0)/2;
+  return [[mid[0]-unit[0]*radius,mid[1]-unit[1]*radius],[mid[0]+unit[0]*radius,mid[1]+unit[1]*radius]];
+}
+
+// Endpoint drag moves that point freely; body drag translates both endpoints.
+
+export function dragSegment(vertices, handle, position, startPosition) {
   const a=[...vertices[0]],b=[...vertices[1]];
   if(handle==='body'){
     if(!startPosition)return [a,b];
@@ -22,18 +34,15 @@ export function dragUnitSegment(vertices, handle, position, startPosition) {
     return [[a[0]+dx,a[1]+dy],[b[0]+dx,b[1]+dy]];
   }
   if(handle!=='a'&&handle!=='b')return [a,b];
-  const fixed=handle==='a'?b:a;
-  const dx=position[0]-fixed[0],dy=position[1]-fixed[1];
-  const distance=Math.hypot(dx,dy);
-  if(distance<1e-8)return [a,b];
-  const moved=[fixed[0]+dx/distance,fixed[1]+dy/distance];
+  if(!Number.isFinite(position[0])||!Number.isFinite(position[1]))return [a,b];
+  const moved=[position[0],position[1]];
   return handle==='a'?[moved,b]:[a,moved];
 }
 
 export function geometryAt(kind, progress) {
-  const t = Math.max(0, Math.min(kind==='root2'?2.82:1, Number(progress) || 0));
+  const t = Math.max(0, Math.min(kind==='segment'?2.5:kind==='root2'?2.82:1, Number(progress) || 0));
   if (kind === 'segment') {
-    return {kind,t,vertices:unitSegment([0,0],360*t),length:1,angle:360*t};
+    return {kind,t,vertices:[[-t/2,0],[t/2,0]],length:t};
   }
   if (kind === 'right' || kind === 'equilateral') {
     const maxAngle = kind === 'right' ? 90 : 60;
@@ -136,7 +145,7 @@ function drawSegment(g,project,mode){
   out+=svgLine(a,b,'#5865dd',7);
   out+=dot(a)+dot(b);
   out+=textAt('A',a,-15,23,'geometry-label')+textAt('B',b,15,23,'geometry-label');
-  out+=textAt('1 birim',midpoint(a,b),0,-22);
+  out+=textAt(closeTo(g.length,1)?'1 birim':fmt.format(g.length)+' birim',midpoint(a,b),0,-22);
   out+='<line data-grab="body" x1="'+f(a.x)+'" y1="'+f(a.y)+'" x2="'+f(b.x)+'" y2="'+f(b.y)+'" stroke="transparent" stroke-width="24" pointer-events="stroke"/>';
   out+='<circle data-grab="a" cx="'+f(a.x)+'" cy="'+f(a.y)+'" r="17" fill="transparent" pointer-events="all"/>';
   out+='<circle data-grab="b" cx="'+f(b.x)+'" cy="'+f(b.y)+'" r="17" fill="transparent" pointer-events="all"/>';
@@ -308,7 +317,7 @@ export function renderShape(kind,progress,mode='2d',showCircle=false,segmentVert
 }
 export function readingFor(kind,progress){
   const g=geometryAt(kind,progress);
-  if(kind==='segment')return Math.round(g.angle)+'° · 1 birim';
+  if(kind==='segment')return fmt.format(g.length)+' birim';
   if(kind==='right'||kind==='equilateral')return fmt.format(g.angle)+'° · diğer '+fmt.format((180-g.angle)/2)+'°';
   if(kind==='root2')return fmt.format(g.base)+' br · '+fmt.format(g.baseAngle)+'° taban';
   if(kind==='square')return fmt.format(g.t)+' birim · '+fmt3.format(g.diagonal)+' köşegen';
@@ -326,22 +335,23 @@ if(typeof document!=='undefined'){
   let segmentDrag=null;
   const mode='2d';
 
-  function setSegmentAngle(degrees){
-    const midpointCoords=[
-      (segmentVertices[0][0]+segmentVertices[1][0])/2,
-      (segmentVertices[0][1]+segmentVertices[1][1])/2
-    ];
-    segmentVertices=unitSegment(midpointCoords,degrees);
+  function setSegmentLength(length){
+    segmentVertices=resizeSegment(segmentVertices,length);
   }
   function drawLesson(lesson){
     const kind=lesson.dataset.shape;
     const slider=lesson.querySelector('input[type=range]');
     const raw=Number(slider.value);
-    const t=kind==='segment'?raw/360:raw/100;
+    const t=raw/100;
     slider.style.setProperty('--fill',(100*raw/Number(slider.max))+'%');
-    const showCircle=!!document.getElementById('show-circle')?.checked;
+    const showCircle=true;
     lesson.querySelector('svg').innerHTML=renderShape(kind,t,mode,showCircle,kind==='segment'?segmentVertices:null);
-    lesson.querySelector('output').textContent=readingFor(kind,t);
+    if(kind==='segment'){
+      const [a,b]=segmentVertices;
+      const length=Math.hypot(b[0]-a[0],b[1]-a[1]);
+      lesson.querySelector('output').textContent=fmt.format(length)+' birim';
+      lesson.querySelector('.segment-formula-value').textContent='|AB| = '+fmt.format(length);
+    }else lesson.querySelector('output').textContent=readingFor(kind,t);
   }
   function stopAnimation(lesson){
     if(frames.has(lesson)){cancelAnimationFrame(frames.get(lesson));frames.delete(lesson);}
@@ -353,24 +363,24 @@ if(typeof document!=='undefined'){
     const max=Number(slider.max);
     if(reducedMotion.matches){
       slider.value=String(max);
-      if(kind==='segment')setSegmentAngle(max);
+      if(kind==='segment')setSegmentLength(max/100);
       drawLesson(lesson);
       return;
     }
-    slider.value='0';
-    if(kind==='segment')setSegmentAngle(0);
+    slider.value=slider.min;
+    if(kind==='segment')setSegmentLength(Number(slider.value)/100);
     drawLesson(lesson);
-    const start=performance.now(),duration=kind==='segment'?2300:1550;
+    const start=performance.now(),duration=kind==='segment'?1750:1550;
     function frame(now){
       const t=Math.min(1,(now-start)/duration);
       const eased=t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2;
-      slider.value=String(Math.round(eased*max));
-      if(kind==='segment')setSegmentAngle(Number(slider.value));
+      slider.value=String(Math.round(Number(slider.min)+eased*(max-Number(slider.min))));
+      if(kind==='segment')setSegmentLength(Number(slider.value)/100);
       drawLesson(lesson);
       if(t<1)frames.set(lesson,requestAnimationFrame(frame));
       else{
         slider.value=String(max);
-        if(kind==='segment')setSegmentAngle(max);
+        if(kind==='segment')setSegmentLength(max/100);
         drawLesson(lesson);
         frames.delete(lesson);
       }
@@ -381,7 +391,7 @@ if(typeof document!=='undefined'){
     const kind=lesson.dataset.shape;
     lesson.querySelector('input[type=range]').addEventListener('input',()=>{
       stopAnimation(lesson);
-      if(kind==='segment')setSegmentAngle(Number(segmentSlider.value));
+      if(kind==='segment')setSegmentLength(Number(segmentSlider.value)/100);
       drawLesson(lesson);
     });
     lesson.querySelector('.play-button').addEventListener('click',()=>play(lesson));
@@ -392,7 +402,7 @@ if(typeof document!=='undefined'){
     segmentDrag=null;
     segmentSvg.classList.remove('dragging');
     segmentVertices=unitSegment([0,0],0);
-    segmentSlider.value='0';
+    segmentSlider.value='100';
     drawLesson(segmentLesson);
   });
   document.getElementById('kok-iki-ucgen').querySelector('.snap-button').addEventListener('click',()=>{
@@ -400,9 +410,6 @@ if(typeof document!=='undefined'){
     stopAnimation(lesson);
     lesson.querySelector('input[type=range]').value='100';
     drawLesson(lesson);
-  });
-  document.getElementById('show-circle').addEventListener('change',()=>{
-    drawLesson(document.getElementById('ceyrek-cember'));
   });
 
   function eventToSegmentWorld(event){
@@ -430,11 +437,11 @@ if(typeof document!=='undefined'){
     if(!segmentDrag||event.pointerId!==segmentDrag.id)return;
     const position=eventToSegmentWorld(event);
     if(!position)return;
-    segmentVertices=dragUnitSegment(segmentDrag.vertices,segmentDrag.handle,position,segmentDrag.start);
+    segmentVertices=dragSegment(segmentDrag.vertices,segmentDrag.handle,position,segmentDrag.start);
     if(segmentDrag.handle!=='body'){
       const [a,b]=segmentVertices;
-      const angle=(Math.atan2(b[1]-a[1],b[0]-a[0])/DEG+360)%360;
-      segmentSlider.value=String(Math.round(angle));
+      const length=Math.hypot(b[0]-a[0],b[1]-a[1]);
+      segmentSlider.value=String(Math.round(length*100));
     }
     drawLesson(segmentLesson);
     event.preventDefault();

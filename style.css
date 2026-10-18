@@ -129,3 +129,26 @@ input[type=range]::-moz-range-thumb{width:10px;height:10px;border-radius:50%;bac
   .lesson[data-shape="root2"] .control-header{align-items:flex-start}
   .snap-button{padding:0 8px}
 }
+
+/* Unified top navigation: content begins directly below the brand bar. */
+.app-shell{grid-template-rows:62px minmax(0,1fr)}
+.site-navbar{grid-column:1/-1;grid-row:1;position:sticky;top:0;z-index:20;height:62px;display:flex;align-items:center;padding:0 26px;background:#fff;border-bottom:1px solid var(--line)}
+.site-navbar .brand{margin:0;font-size:22px}
+.sidebar{grid-column:1;grid-row:2;top:62px;height:calc(100dvh - 62px);padding-top:21px}
+main{grid-column:2;grid-row:2}
+.content{padding-top:17px}
+.section-heading{padding-top:0}
+.section-heading h1{font-size:25px;line-height:1.15;letter-spacing:-.8px;margin:5px 0 6px}
+.sidebar-bottom{padding-top:4px}
+.sidebar-bottom .repo-link{margin-top:0}
+@media(max-width:950px){
+  .app-shell{display:block}
+  .site-navbar{height:56px;padding:0 18px}
+  .site-navbar .brand{font-size:19px}
+  .sidebar{display:none}
+  .content{padding-top:14px}
+}
+@media(max-width:690px){
+  .section-heading h1{font-size:24px}
+  .content{padding-top:14px}
+}
