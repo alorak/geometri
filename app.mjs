@@ -77,6 +77,21 @@ export function geometryAt(kind, progress) {
   throw new Error('Bilinmeyen şekil: '+kind);
 }
 
+// Describe the actual shape during each construction, including its degenerate start.
+export function classifyShape(kind,progress){
+  const descriptions={
+    right:['İkizkenar dik üçgen','Dik olmayan ikizkenar üçgen','Henüz üçgen oluşmadı'],
+    equilateral:['Eşkenar üçgen','İkizkenar üçgen (eşkenar değil)','Henüz üçgen oluşmadı'],
+    square:['1 birimlik kare','Bir kenarı 1 birim olan dikdörtgen','Henüz dikdörtgen oluşmadı'],
+    quarter:['1 birimlik çeyrek çember','90°\'den küçük daire dilimi','Henüz daire dilimi oluşmadı']
+  };
+  const names=descriptions[kind];
+  if(!names)return null;
+  const t=Math.max(0,Math.min(1,Number(progress)||0));
+  const valid=t>=1;
+  return {valid,label:names[valid?0:t>0?1:2]};
+}
+
 const fmt = new Intl.NumberFormat('tr-TR',{minimumFractionDigits:2,maximumFractionDigits:2});
 const fmt3 = new Intl.NumberFormat('tr-TR',{minimumFractionDigits:3,maximumFractionDigits:3});
 const closeTo = (a,b) => Math.abs(a-b) < 0.0001;
@@ -352,6 +367,14 @@ if(typeof document!=='undefined'){
       lesson.querySelector('output').textContent=fmt.format(length)+' birim';
       lesson.querySelector('.segment-formula-value').textContent='|AB| = '+fmt.format(length);
     }else lesson.querySelector('output').textContent=readingFor(kind,t);
+    const condition=classifyShape(kind,t);
+    const status=lesson.querySelector('.condition-status');
+    if(condition&&status){
+      status.classList.toggle('is-valid',condition.valid);
+      status.classList.toggle('is-invalid',!condition.valid);
+      status.querySelector('.condition-icon').textContent=condition.valid?'✓':'✕';
+      status.querySelector('.condition-text').textContent=condition.label;
+    }
   }
   function stopAnimation(lesson){
     if(frames.has(lesson)){cancelAnimationFrame(frames.get(lesson));frames.delete(lesson);}

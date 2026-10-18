@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {geometryAt,readingFor,renderShape,unitSegment,resizeSegment,dragSegment,ROOT_TWO,HALF_PI} from '../app.mjs';
+import {geometryAt,readingFor,renderShape,unitSegment,resizeSegment,dragSegment,classifyShape,ROOT_TWO,HALF_PI} from '../app.mjs';
 
 const approx=(actual,expected,eps=1e-10)=>assert.ok(Math.abs(actual-expected)<eps,actual+' ≠ '+expected);
 const distance=(a,b)=>Math.hypot(a[0]-b[0],a[1]-b[1]);
@@ -128,4 +128,24 @@ test('her şekil 2B SVG olarak üretilebilir',()=>{
   const half=renderShape('quarter',.5);
   assert.ok(half.includes('yay 0,785'));
   assert.ok(half.includes('kiriş 0,765'));
+});
+
+test('dört etkileşimli çizimin sınıflandırması ideal ve ara konumlarda güncellenir',()=>{
+  const cases=[
+    ['right','İkizkenar dik üçgen','Dik olmayan ikizkenar üçgen','Henüz üçgen oluşmadı'],
+    ['equilateral','Eşkenar üçgen','İkizkenar üçgen (eşkenar değil)','Henüz üçgen oluşmadı'],
+    ['square','1 birimlik kare','Bir kenarı 1 birim olan dikdörtgen','Henüz dikdörtgen oluşmadı'],
+    ['quarter','1 birimlik çeyrek çember',"90°'den küçük daire dilimi",'Henüz daire dilimi oluşmadı']
+  ];
+  for(const [kind,complete,partial,degenerate] of cases){
+    assert.deepEqual(classifyShape(kind,1),{valid:true,label:complete});
+    assert.deepEqual(classifyShape(kind,.01),{valid:false,label:partial});
+    assert.deepEqual(classifyShape(kind,.5),{valid:false,label:partial});
+    assert.deepEqual(classifyShape(kind,.99),{valid:false,label:partial});
+    assert.deepEqual(classifyShape(kind,0),{valid:false,label:degenerate});
+    assert.deepEqual(classifyShape(kind,-1),{valid:false,label:degenerate});
+    assert.deepEqual(classifyShape(kind,2),{valid:true,label:complete});
+  }
+  assert.equal(classifyShape('segment',1),null);
+  assert.equal(classifyShape('root2',1),null);
 });
