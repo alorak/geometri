@@ -33,7 +33,11 @@
 .trig-table tbody th{font-weight:750}
 .trig-table tbody button{font:inherit;color:#5665c6;background:transparent;border:0;border-radius:5px;padding:3px 7px;cursor:pointer;font-weight:800}
 .trig-table tbody button:hover{background:#e7eaff}
+.trig-table tbody tr[data-deg]{cursor:pointer;transition:background-color .15s ease}
+.trig-table tbody tr[data-deg]:hover{background:#f1f4ff}
+.trig-table tbody tr[data-deg]:focus-within{outline:2px solid #b1bcf4;outline-offset:-2px}
 .trig-table tbody tr.is-selected{background:#eef9f5}
+.trig-table tbody tr.is-selected:hover{background:#e5f6ed}
 .trig-table tbody tr.is-selected button{background:#dbf4e8;color:#157a52}
 .trig-table td.undefined{color:#b4565a;font-size:10px}
 .special-aside{min-width:0;display:flex;flex-direction:column;align-items:stretch;gap:9px;background:#fbfcff;border:1px solid #edf0f7;border-radius:11px;padding:10px}
