@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {trigAt,radianAt,triangleAt,expressionAt,SPECIAL_ANGLES,renderRadian,renderTriangle,renderGraph,renderSpecialCircle,renderExpression} from '../trigonometri.mjs';
+import {trigAt,radianAt,radiansInPi,triangleAt,expressionAt,SPECIAL_ANGLES,renderRadian,renderTriangle,renderGraph,renderSpecialCircle,renderExpression} from '../trigonometri.mjs';
 
 const approx=(actual,expected,eps=1e-10)=>assert.ok(Math.abs(actual-expected)<eps,actual+' ≠ '+expected);
 
@@ -93,5 +93,38 @@ test('simülasyonların SVG çıktıları sonlu ve çizilebilir',()=>{
   for(const angle of [1,30,45,60,89]){
     assert.ok(renderTriangle(angle,'sin').includes('karşı'));
     assert.ok(renderTriangle(angle,'cos').includes('komşu'));
+  }
+});
+
+test('açının π cinsinden gösterimi sadeleştirilir',()=>{
+  const known=[
+    [0,'0'],[1,'π/180'],[30,'π/6'],[45,'π/4'],[60,'π/3'],
+    [90,'π/2'],[120,'2π/3'],[135,'3π/4'],[180,'π'],
+    [225,'5π/4'],[270,'3π/2'],[360,'2π']
+  ];
+  for(const [degree,expected] of known)assert.equal(radiansInPi(degree),expected);
+});
+
+test('açı yazıları şeklin içinde kalır; yalnızca ilgili kenar etiketlenir',()=>{
+  for(const degree of [1,30,45,60,84,89]){
+    const sine=renderTriangle(degree,'sin');
+    const cosine=renderTriangle(degree,'cos');
+    assert.ok(sine.includes(degree+'°'));
+    assert.ok(cosine.includes(degree+'°'));
+    assert.ok(sine.includes('karşı'));
+    assert.ok(!sine.includes('komşu'));
+    assert.ok(cosine.includes('komşu'));
+    assert.ok(!cosine.includes('karşı'));
+    assert.ok(sine.includes('stroke="#e39a5b"'));
+    const label=sine.match(/<rect x="([-\d.]+)" y="([-\d.]+)" width="58" height="24"/);
+    assert.ok(label,'açı etiketi bulunamadı');
+    const x=Number(label[1]),y=Number(label[2]);
+    assert.ok(x>=0&&x+58<=480);
+    assert.ok(y>=0&&y+24<=260);
+  }
+  for(const degree of [0,30,90,180,270,360]){
+    const svg=renderRadian(1,degree);
+    assert.ok(svg.includes(degree+'°'),'çemberde açı değeri görünmeli');
+    assert.ok(svg.includes('stroke="#7380d6"')||degree===0);
   }
 });

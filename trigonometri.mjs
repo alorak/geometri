@@ -22,6 +22,17 @@ export function radianAt(radius,angleDeg){
   return {radius:r,degree,radians,arcLength,arcRadiusRatio:arcLength/r};
 }
 
+// Radyanı π katsayısı olarak göster: 90° = π/2, 270° = 3π/2.
+export function radiansInPi(angleDeg){
+  const angle=clamp(angleDeg,0,360);
+  if(angle===0)return '0';
+  if(!Number.isInteger(angle))return String(angle)+'π/180';
+  const gcd=(a,b)=>b?gcd(b,a%b):a;
+  const divisor=gcd(angle,180),numerator=angle/divisor,denominator=180/divisor;
+  const part=(numerator===1?'':String(numerator))+'π';
+  return denominator===1?part:part+'/'+denominator;
+}
+
 export function triangleAt(angleDeg){
   // Uç konumlarda üçgen doğrusal hale geldiği için 1°–89° arasında tutulur.
   const angle=clamp(angleDeg,1,89),t=trigAt(angle);
@@ -74,13 +85,13 @@ export function renderRadian(radius,angleDeg){
   const g=radianAt(radius,angleDeg);
   const cx=470,cy=128,r=51+g.radius*38;
   let out=background();
-  out+=text(32,63,'Yay uzunluğu / yarıçap','#6e78a1',15,'start',750);
-  out+=text(32,101,'s / r = θ (radyan)','#4f5ac4',22,'start',800);
-  out+=text(32,143,'Açı aynı kaldığında r büyürse','#7c859f',13,'start');
-  out+=text(32,166,'yay da aynı oranda uzar.','#7c859f',13,'start');
+  out+=text(32,66,'Bir radyanın anlamı','#6e78a1',15,'start',750);
+  out+=text(32,106,'s / r = θ','#4f5ac4',25,'start',800);
+  out+=text(32,150,'Açı sabitken yarıçap artarsa','#7c859f',13,'start');
+  out+=text(32,174,'yay uzunluğu da artar.','#7c859f',13,'start');
   out+=circle(cx,cy,r,'#f6f7ff','#d9def7',2);
-  out+=line(cx-r-21,cy,cx+r+21,cy,'#dfe3ef',1.5);
-  out+=line(cx,cy-r-20,cx,cy+r+20,'#dfe3ef',1.5);
+  out+=line(cx-r-18,cy,cx+r+18,cy,'#dfe3ef',1.5);
+  out+=line(cx,cy-r-15,cx,cy+r+15,'#dfe3ef',1.5);
   const pts=[];
   const steps=Math.max(1,Math.ceil(g.degree/3));
   for(let i=0;i<=steps;i++){
@@ -92,35 +103,45 @@ export function renderRadian(radius,angleDeg){
   out+=line(cx,cy,cx+r,cy,'#4f61cd',2.6);
   const end=pts[pts.length-1];
   out+=line(cx,cy,end[0],end[1],'#4f61cd',2.6);
+  const marker=[];
+  for(let i=0;i<=Math.max(1,Math.ceil(g.degree/7));i++){
+    const a=g.radians*i/Math.max(1,Math.ceil(g.degree/7));
+    marker.push([cx+31*Math.cos(a),cy-31*Math.sin(a)]);
+  }
+  if(g.degree>0)out+=polyline(marker,'#7380d6',2.5);
   out+=dot(cx,cy,'#4f61cd',4)+dot(end[0],end[1],'#ed9d51',4);
   out+=text(cx+r/2,cy+19,'r','#4f61cd',14);
-  out+=text(cx,245,'θ = '+fmt(g.radians)+' rad','#414b75',13);
+  const middle=g.radians/2,tx=cx+59*Math.cos(middle),ty=cy-59*Math.sin(middle)-5;
+  out+='<rect x="'+f(tx-37)+'" y="'+f(ty-16)+'" width="74" height="23" rx="8" fill="#ffffff" fill-opacity=".92" stroke="#dfe4fa"/>';
+  out+=text(tx,ty,g.degree+'°','#5260bd',13,'middle',800);
   return out;
 }
 
 export function renderTriangle(angleDeg,highlight='sin'){
-  const g=triangleAt(angleDeg),ax=142,ay=210,scale=158;
+  if(highlight!=='sin'&&highlight!=='cos')throw new Error('Bilinmeyen oran: '+highlight);
+  const g=triangleAt(angleDeg),ax=130,ay=214,scale=164;
   const bx=ax+g.adjacent*scale,by=ay,cx=bx,cy=ay-g.opposite*scale;
-  let out=background();
+  const sine=highlight==='sin';
+  let out=background(480,260);
   out+=path([[ax,ay],[bx,by],[cx,cy]],'#eff2ff','#c0c8ec',1);
-  const adjColor=highlight==='cos'?'#15a79d':'#7a88c2';
-  const oppColor=highlight==='sin'?'#ed9253':'#7a88c2';
-  out+=line(ax,ay,bx,by,adjColor,highlight==='cos'?6:3.5);
-  out+=line(bx,by,cx,cy,oppColor,highlight==='sin'?6:3.5);
-  out+=line(ax,ay,cx,cy,'#5865df',4);
+  out+=line(ax,ay,bx,by,sine?'#bec7df':'#15a79d',sine?2.7:6);
+  out+=line(bx,by,cx,cy,sine?'#ed9253':'#bec7df',sine?6:2.7);
+  out+=line(ax,ay,cx,cy,'#5865df',4.1);
+  const corner=Math.min(12,Math.max(3,Math.min(g.adjacent,g.opposite)*scale*.48));
+  out+=polyline([[bx-corner,by],[bx-corner,by-corner],[bx,by-corner]],'#9aa5c4',1.8);
   out+=dot(ax,ay)+dot(bx,by)+dot(cx,cy);
-  if(g.adjacent>.12&&g.opposite>.12)
-    out+=polyline([[bx-12,by],[bx-12,by-12],[bx,by-12]],'#a5aec5',1.7);
-  out+=text(ax+24,ay-17,g.angle+'°','#e08b4b',14,'start',800);
-  out+=text((ax+cx)/2-13,(ay+cy)/2-13,'1','#5664c8',16,'middle',800);
-  out+=text((ax+bx)/2,236,'komşu','#15a79d',12);
-  out+=text(Math.min(316,bx+29),(by+cy)/2,'karşı','#e08b4b',12);
-  out+=text(390,66,highlight==='sin'?'sin θ':'cos θ','#5964bc',16,'middle',800);
-  out+=text(390,108,fmt(highlight==='sin'?g.opposite:g.adjacent),'#424f9e',28,'middle',800);
-  out+=text(390,150,highlight==='sin'?'karşı / hipotenüs':'komşu / hipotenüs','#75809a',13);
-  out+=text(390,178,(highlight==='sin'?'karşı':'komşu')+' / 1','#75809a',13);
-  out+=text(390,218,'Karşı = '+fmt(g.opposite),'#d98851',12);
-  out+=text(390,239,'Komşu = '+fmt(g.adjacent),'#128b85',12);
+  const theta=g.angle*DEG,arc=[];
+  for(let i=0;i<=18;i++){
+    const a=theta*i/18;
+    arc.push([ax+35*Math.cos(a),ay-35*Math.sin(a)]);
+  }
+  out+=polyline(arc,'#e39a5b',2.5);
+  const mid=theta/2,tx=ax+58*Math.cos(mid),ty=ay-58*Math.sin(mid)-18;
+  out+='<rect x="'+f(tx-29)+'" y="'+f(ty-17)+'" width="58" height="24" rx="8" fill="#fff" fill-opacity=".94" stroke="#f5d9c5"/>';
+  out+=text(tx,ty,g.angle+'°','#d98345',14,'middle',800);
+  out+=text(ax+.69*(cx-ax)-17*g.opposite,ay+.69*(cy-ay)-17*g.adjacent,'1','#5664c8',16,'middle',800);
+  if(sine)out+=text(bx+39,(by+cy)/2-5,'karşı','#d98851',14);
+  else out+=text((ax+bx)/2,242,'komşu','#128b85',14);
   return out;
 }
 
@@ -225,13 +246,13 @@ if(typeof document!=='undefined'){
       card.querySelector('[data-radius-output]').textContent=fmt(radius)+' br';
       const g=radianAt(radius,angle);
       svg.innerHTML=renderRadian(radius,angle);
-      main.textContent=fmt(g.radians)+' rad';
-      detail.textContent='Yay = '+fmt(g.arcLength)+' br · Yay / r = '+fmt(g.arcRadiusRatio)+' rad';
+      main.textContent='θ = '+radiansInPi(g.degree)+' ≈ '+fmt(g.radians)+' rad';
+      detail.textContent='Yay s = '+fmt(g.arcLength)+' br · s / r = '+fmt(g.arcRadiusRatio);
     }else if(kind==='sin-triangle'||kind==='cos-triangle'){
       const sine=kind==='sin-triangle',g=triangleAt(angle);
       svg.innerHTML=renderTriangle(angle,sine?'sin':'cos');
       main.textContent=(sine?'sin ':'cos ')+angle+'° = '+fmt(sine?g.opposite:g.adjacent);
-      detail.textContent='Karşı: '+fmt(g.opposite)+' · Komşu: '+fmt(g.adjacent)+' · Hipotenüs: 1';
+      detail.textContent='';
     }else if(kind==='sin-graph'||kind==='cos-graph'){
       const sine=kind==='sin-graph',g=trigAt(angle);
       svg.innerHTML=renderGraph(sine?'sin':'cos',angle);
