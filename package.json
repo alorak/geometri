@@ -1,0 +1,10 @@
+{
+  "name": "geometri-atolyesi",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Bağımlılıksız etkileşimli 2B ve 3B geometri atölyesi",
+  "scripts": {
+    "test": "node --test tests/geometry.test.mjs"
+  }
+}
