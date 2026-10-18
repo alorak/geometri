@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
-  "description": "Bağımlılıksız etkileşimli 2B ve 3B geometri atölyesi",
+  "description": "Bağımlılıksız etkileşimli 2B geometri ve temel trigonometri atölyesi",
   "scripts": {
-    "test": "node --test tests/geometry.test.mjs"
+    "test": "node --test tests/*.test.mjs"
   }
 }

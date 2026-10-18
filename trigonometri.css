@@ -1,0 +1,67 @@
+/* Konu 02 · etkileşimli trigonometri kartları */
+.trig-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;align-items:stretch}
+.trig-card{scroll-margin-top:83px;min-width:0;display:flex;flex-direction:column;overflow:hidden;background:#fff;border:1px solid #e6eaf2;border-radius:15px;box-shadow:0 6px 28px rgba(27,43,85,.035)}
+.trig-card-wide{grid-column:1/-1}
+.trig-card-header{padding:17px 20px 10px}
+.trig-eyebrow{display:flex;align-items:center;gap:9px;color:#5865df;font-size:10px;letter-spacing:1.15px;font-weight:800}
+.trig-tag{font-size:9px;letter-spacing:.6px;color:#939bb2;background:#f4f5fa;border:1px solid #e9ecf4;border-radius:5px;padding:2px 7px}
+.trig-card h2{font-size:clamp(18px,1.75vw,23px);letter-spacing:-.55px;line-height:1.3;margin:8px 0 6px;color:#30364d}
+.trig-card-header p{font-size:12px;line-height:1.6;color:#7e869c;margin:0;max-width:850px}
+.trig-card-header strong{color:#4c597c;font-weight:750}
+.trig-visual{min-width:0;display:flex;align-items:center;justify-content:center;flex:1;background:#fcfdff;border-top:1px solid #f1f2f8;overflow:hidden}
+.trig-visual svg{display:block;width:100%;height:auto;max-height:255px}
+.trig-card-wide .trig-visual svg{max-width:780px}
+.trig-readout{display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:5px 16px;background:#f6f7ff;border-top:1px solid #e9ecfb;border-bottom:1px solid #e9ecfb;padding:9px 18px;min-height:48px}
+.trig-readout strong{font-size:14px;color:#4d58ba;font-variant-numeric:tabular-nums}
+.trig-readout span{font-size:11px;color:#737d9a;font-variant-numeric:tabular-nums}
+.trig-control-area{padding:12px 18px 14px;display:grid;gap:11px}
+.trig-slider-row{min-width:0}
+.trig-slider-row>label{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:8px;font-size:12px;font-weight:690;color:#727c93}
+.trig-slider-row output{font-size:12px;color:#4e5ab8;font-weight:800;font-variant-numeric:tabular-nums}
+.trig-slider-actions{display:flex;align-items:center;gap:10px;min-width:0}
+.trig-slider-actions input,.trig-slider-row>input{width:100%;min-width:0}
+.trig-slider-row input[type=range]{display:block;--fill:50%}
+.trig-play{background:#eef0ff;border:1px solid #e2e6fd;color:#5964bf;border-radius:9px;font-size:12px;font-weight:800;white-space:nowrap;cursor:pointer;padding:6px 12px;min-height:35px;flex:none}
+.trig-play:hover{background:#dfe4ff}
+.trig-identity{padding:8px 18px 10px;background:#fafbff;border-top:1px solid #eef0f6;color:#6570a3;font-size:12px;font-weight:740;line-height:1.4}
+.trig-table-scroll{max-height:425px;overflow:auto;border:1px solid #e7eaf2;border-radius:10px}
+.special-layout{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(230px,.9fr);align-items:start;gap:17px;padding:7px 20px 20px}
+.trig-table{width:100%;border-collapse:separate;border-spacing:0;font-variant-numeric:tabular-nums;font-size:12px}
+.trig-table caption{caption-side:top}
+.trig-table th,.trig-table td{padding:7px 10px;border-bottom:1px solid #edf0f6;text-align:center;white-space:nowrap}
+.trig-table thead th{position:sticky;top:0;z-index:1;background:#eef0ff;color:#626ca6;font-size:11px;font-weight:830}
+.trig-table tbody th{font-weight:750}
+.trig-table tbody button{font:inherit;color:#5665c6;background:transparent;border:0;border-radius:5px;padding:3px 7px;cursor:pointer;font-weight:800}
+.trig-table tbody button:hover{background:#e7eaff}
+.trig-table tbody tr.is-selected{background:#eef9f5}
+.trig-table tbody tr.is-selected button{background:#dbf4e8;color:#157a52}
+.trig-table td.undefined{color:#b4565a;font-size:10px}
+.special-aside{min-width:0;display:flex;flex-direction:column;align-items:stretch;gap:9px;background:#fbfcff;border:1px solid #edf0f7;border-radius:11px;padding:10px}
+.special-aside svg{display:block;width:100%;max-height:250px}
+.special-aside p{margin:0;color:#5a6487;font-size:12px;line-height:1.7;text-align:center;font-weight:700}
+.special-aside .trig-identity{border-radius:7px;border:0;text-align:center}
+.sr-only{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.trig-grid .trig-card:target{outline:2px solid #a8b1f5;outline-offset:2px}
+@media(max-width:1150px){
+  .trig-readout{display:block}
+  .trig-readout span{display:block;margin-top:3px}
+}
+@media(max-width:750px){
+  .trig-grid{grid-template-columns:minmax(0,1fr);gap:12px}
+  .trig-card-wide{grid-column:auto}
+  .trig-card-header{padding:16px 17px 9px}
+  .trig-card h2{font-size:20px}
+  .trig-visual svg{max-height:none}
+  .trig-readout{padding:10px 15px}
+  .trig-control-area{padding:12px 15px}
+  .trig-identity{padding:9px 15px}
+  .special-layout{padding:5px 14px 15px;grid-template-columns:minmax(0,1fr)}
+  .special-aside{max-width:none}
+  .special-aside svg{max-height:220px}
+}
+@media(max-width:450px){
+  .trig-card-header p{font-size:11.5px}
+  .trig-readout strong{font-size:12.5px}
+  .trig-table{font-size:11px}
+  .trig-table th,.trig-table td{padding:6px 8px}
+}
