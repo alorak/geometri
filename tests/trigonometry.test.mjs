@@ -60,7 +60,7 @@ test('toplam, fark ve çarpımın trigonometrik özdeşlikleri',()=>{
 });
 
 test('özel açı tablosunda tanımsız paydalar belirtilir',()=>{
-  assert.equal(SPECIAL_ANGLES.length,17);
+  assert.deepEqual(SPECIAL_ANGLES.map(item=>item.angle),[0,30,45,60,90,180,270,360]);
   const row=angle=>SPECIAL_ANGLES.find(value=>value.angle===angle);
   assert.equal(row(30).sin,'1/2');
   assert.equal(row(45).cos,'√2/2');
@@ -70,9 +70,8 @@ test('özel açı tablosunda tanımsız paydalar belirtilir',()=>{
   assert.equal(row(0).cot,'Tanımsız');
   assert.equal(row(180).cot,'Tanımsız');
   assert.equal(row(270).cot,'0');
-  assert.equal(row(120).cos,'−1/2');
-  assert.equal(row(225).tan,'1');
-  assert.equal(row(330).cot,'−√3');
+  assert.equal(row(360).sin,'0');
+  assert.equal(row(180).cos,'−1');
 });
 
 test('simülasyonların SVG çıktıları sonlu ve çizilebilir',()=>{

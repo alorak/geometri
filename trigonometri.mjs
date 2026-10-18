@@ -57,17 +57,8 @@ export const SPECIAL_ANGLES=[
   {angle:45, sin:'√2/2',cos:'√2/2', tan:'1',    cot:'1'},
   {angle:60, sin:'√3/2',cos:'1/2',   tan:'√3',   cot:'√3/3'},
   {angle:90, sin:'1',   cos:'0',     tan:'Tanımsız',cot:'0'},
-  {angle:120,sin:'√3/2',cos:'−1/2', tan:'−√3',  cot:'−√3/3'},
-  {angle:135,sin:'√2/2',cos:'−√2/2',tan:'−1',   cot:'−1'},
-  {angle:150,sin:'1/2',cos:'−√3/2', tan:'−√3/3',cot:'−√3'},
   {angle:180,sin:'0',   cos:'−1',    tan:'0',    cot:'Tanımsız'},
-  {angle:210,sin:'−1/2',cos:'−√3/2',tan:'√3/3',cot:'√3'},
-  {angle:225,sin:'−√2/2',cos:'−√2/2',tan:'1',   cot:'1'},
-  {angle:240,sin:'−√3/2',cos:'−1/2',tan:'√3',   cot:'√3/3'},
   {angle:270,sin:'−1',  cos:'0',     tan:'Tanımsız',cot:'0'},
-  {angle:300,sin:'−√3/2',cos:'1/2', tan:'−√3',  cot:'−√3/3'},
-  {angle:315,sin:'−√2/2',cos:'√2/2',tan:'−1',   cot:'−1'},
-  {angle:330,sin:'−1/2',cos:'√3/2', tan:'−√3/3',cot:'−√3'},
   {angle:360,sin:'0',   cos:'1',     tan:'0',    cot:'Tanımsız'}
 ];
 
@@ -323,8 +314,8 @@ if(typeof document!=='undefined'){
         ' · tan = '+found.tan+' · cot = '+found.cot;
     }
     table.addEventListener('click',event=>{
-      const button=event.target.closest('button[data-select-angle]');
-      if(button)selectAngle(Number(button.dataset.selectAngle));
+      const row=event.target.closest('tbody tr[data-deg]');
+      if(row&&table.contains(row))selectAngle(Number(row.dataset.deg));
     });
     selectAngle(30);
   }
